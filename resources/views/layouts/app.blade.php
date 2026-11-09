@@ -47,7 +47,7 @@
                     <p x-show="sidebarExpanded" class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Operasional</p>
                     <div class="space-y-1">
                         @foreach ([
-                            ['Data Personel', 'personnel'],
+                            ['Data Personel', route('personnel.index')],
                             ['Jadwal Kerja', 'schedule'],
                             ['Absensi', 'attendance'],
                             ['Monitoring Kebersihan', 'monitoring'],
@@ -55,7 +55,7 @@
                             ['Peminjaman Gedung/Ruangan', 'bookings'],
                             ['Penugasan Operasional', 'tasks'],
                         ] as [$label, $icon])
-                            <a href="#" @click="sidebarOpen = false" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900" title="{{ $label }}">
+                            <a href="{{ $icon }}" @click="sidebarOpen = false" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900" title="{{ $label }}">
                                 <span class="flex size-5 shrink-0 items-center justify-center rounded-md bg-slate-100 text-[10px] font-bold text-slate-500">{{ strtoupper(substr($label, 0, 1)) }}</span>
                                 <span x-show="sidebarExpanded" class="truncate">{{ $label }}</span>
                             </a>
@@ -81,6 +81,12 @@
                             </a>
                         @endforeach
                     </div>
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('personnel.change-requests.index') }}" @click="sidebarOpen = false" class="mt-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900" title="Permohonan Koreksi Identitas">
+                            <span class="flex size-5 shrink-0 items-center justify-center rounded-md bg-amber-50 text-[10px] font-bold text-amber-700">K</span>
+                            <span x-show="sidebarExpanded" class="truncate">Permohonan Koreksi Identitas</span>
+                        </a>
+                    @endif
                 </div>
             </nav>
 
