@@ -48,8 +48,8 @@
                     <div class="space-y-1">
                         @foreach ([
                             ['Data Personel', route('personnel.index')],
-                            ['Jadwal Kerja', 'schedule'],
-                            ['Absensi', 'attendance'],
+                            ['Jadwal Kerja', route('schedule.index')],
+                            ['Absensi', route('attendance.index')],
                             ['Monitoring Kebersihan', 'monitoring'],
                             ['Data Komplain', 'complaints'],
                             ['Peminjaman Gedung/Ruangan', 'bookings'],

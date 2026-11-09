@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Modules\Personnel\Controllers\PersonnelController;
+use App\Modules\Schedule\Controllers\ScheduleController;
+use App\Modules\Attendance\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
@@ -17,6 +19,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
     Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    Route::post('/schedule/assign', [ScheduleController::class, 'assign'])->name('schedule.assign');
+    Route::post('/schedule/wfh', [ScheduleController::class, 'setWfh'])->name('schedule.wfh');
+    Route::post('/schedule/bulk-generate', [ScheduleController::class, 'bulkGenerate'])->name('schedule.bulk-generate');
+
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/import', [AttendanceController::class, 'importForm'])->name('attendance.import-form');
+    Route::post('/attendance/import', [AttendanceController::class, 'import'])->name('attendance.import');
+    Route::get('/attendance/template', [AttendanceController::class, 'downloadTemplate'])->name('attendance.template');
+    Route::get('/attendance/history', [AttendanceController::class, 'history'])->name('attendance.history');
+    Route::get('/attendance/history/{attendanceImport}/errors', [AttendanceController::class, 'errors'])->name('attendance.errors');
+    Route::post('/attendance/history/{attendanceImport}/activate', [AttendanceController::class, 'activate'])->name('attendance.activate');
 
     Route::get('/personnel/change-requests', [PersonnelController::class, 'changeRequests'])
         ->middleware(EnsureUserIsAdmin::class)
