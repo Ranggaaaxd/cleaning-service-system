@@ -16,4 +16,18 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_dashboard_displays_operational_statistics_and_navigation(): void
+    {
+        $response = $this->get('/');
+
+        $response
+            ->assertOk()
+            ->assertSee('Total Personel Aktif')
+            ->assertSee('Tugas Berjalan')
+            ->assertSee('Komplain Aktif')
+            ->assertSee('Peringatan Stok Minimum')
+            ->assertSee('Monitoring Kebersihan')
+            ->assertSee('Pengaturan Sistem');
+    }
 }
