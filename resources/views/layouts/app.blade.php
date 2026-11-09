@@ -86,14 +86,17 @@
 
             <div class="border-t border-slate-100 p-3">
                 <p x-show="sidebarExpanded" class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Profil</p>
-                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50" title="Profil Pengguna">
+                <a href="{{ route('profile.show') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50" title="Profil Pengguna">
                     <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-teal-100 text-xs font-bold text-teal-700">{{ strtoupper(substr(auth()->user()?->name ?? 'A', 0, 1)) }}</span>
                     <span x-show="sidebarExpanded" class="truncate">Profil Pengguna</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50" title="Logout">
-                    <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>
-                    <span x-show="sidebarExpanded">Logout</span>
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-slate-600 transition hover:bg-slate-50" title="Logout">
+                        <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>
+                        <span x-show="sidebarExpanded">Logout</span>
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -117,7 +120,11 @@
                 <div class="flex items-center gap-3">
                     @php
                         $currentUser = auth()->user();
-                        $currentRole = in_array($currentUser?->role, ['Admin', 'SPV'], true) ? $currentUser->role : 'Admin';
+                        $currentRole = match ($currentUser?->role) {
+                            'admin' => 'Admin',
+                            'supervisor' => 'SPV',
+                            default => 'Admin',
+                        };
                     @endphp
                     <span class="hidden rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 sm:inline-flex">{{ $currentRole }}</span>
                     <div x-data="{ profileOpen: false }" class="relative">
@@ -130,8 +137,11 @@
                             <svg class="hidden size-4 text-slate-400 sm:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.47a.75.75 0 0 1 1.06 0L10 11.19l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
                         </button>
                         <div x-cloak x-show="profileOpen" x-transition class="absolute right-0 mt-2 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
-                            <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Profil Pengguna</a>
-                            <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Logout</a>
+                            <a href="{{ route('profile.show') }}" class="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Profil Pengguna</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </div>
