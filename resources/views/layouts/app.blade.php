@@ -50,8 +50,8 @@
                             ['Data Personel', route('personnel.index')],
                             ['Jadwal Kerja', route('schedule.index')],
                             ['Absensi', route('attendance.index')],
-                            ['Monitoring Kebersihan', 'monitoring'],
-                            ['Data Komplain', 'complaints'],
+                            ['Monitoring Kebersihan', route('monitoring.index')],
+                            ['Data Komplain', route('complaint.index')],
                             ['Peminjaman Gedung/Ruangan', 'bookings'],
                             ['Penugasan Operasional', 'tasks'],
                         ] as [$label, $icon])

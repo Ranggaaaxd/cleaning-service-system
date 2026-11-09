@@ -5,6 +5,8 @@ use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Modules\Personnel\Controllers\PersonnelController;
 use App\Modules\Schedule\Controllers\ScheduleController;
 use App\Modules\Attendance\Controllers\AttendanceController;
+use App\Modules\Monitoring\Controllers\MonitoringController;
+use App\Modules\Complaint\Controllers\ComplaintController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
@@ -32,6 +34,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/history', [AttendanceController::class, 'history'])->name('attendance.history');
     Route::get('/attendance/history/{attendanceImport}/errors', [AttendanceController::class, 'errors'])->name('attendance.errors');
     Route::post('/attendance/history/{attendanceImport}/activate', [AttendanceController::class, 'activate'])->name('attendance.activate');
+
+    Route::get('/monitoring/areas/{area}/checklist', [MonitoringController::class, 'templates'])->name('monitoring.checklist');
+    Route::post('/monitoring/findings/{finding}/recheck', [MonitoringController::class, 'recheck'])->name('monitoring.findings.recheck');
+    Route::resource('monitoring', MonitoringController::class)->only(['index', 'create', 'store', 'show']);
+
+    Route::post('/complaint/{complaint}/status', [ComplaintController::class, 'updateStatus'])->name('complaint.status');
+    Route::resource('complaint', ComplaintController::class)->only(['index', 'create', 'store', 'show']);
 
     Route::get('/personnel/change-requests', [PersonnelController::class, 'changeRequests'])
         ->middleware(EnsureUserIsAdmin::class)

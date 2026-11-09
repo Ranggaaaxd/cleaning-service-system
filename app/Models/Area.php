@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Area extends Model
 {
@@ -17,5 +18,20 @@ class Area extends Model
     public function floor(): BelongsTo
     {
         return $this->belongsTo(Floor::class);
+    }
+
+    public function monitoringInspections(): HasMany
+    {
+        return $this->hasMany(MonitoringInspection::class);
+    }
+
+    public function inspectionFindings(): HasMany
+    {
+        return $this->hasMany(InspectionFinding::class);
+    }
+
+    public function complaints(): HasMany
+    {
+        return $this->hasMany(Complaint::class);
     }
 }

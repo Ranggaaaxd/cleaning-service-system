@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LocationAndPersonnelSeeder::class,
             ShiftAndScheduleSeeder::class,
+            MonitoringAndComplaintSeeder::class,
         ]);
     }
 }
