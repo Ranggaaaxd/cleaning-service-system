@@ -7,6 +7,8 @@ use App\Modules\Schedule\Controllers\ScheduleController;
 use App\Modules\Attendance\Controllers\AttendanceController;
 use App\Modules\Monitoring\Controllers\MonitoringController;
 use App\Modules\Complaint\Controllers\ComplaintController;
+use App\Modules\Booking\Controllers\BookingController;
+use App\Modules\Task\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
@@ -41,6 +43,15 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/complaint/{complaint}/status', [ComplaintController::class, 'updateStatus'])->name('complaint.status');
     Route::resource('complaint', ComplaintController::class)->only(['index', 'create', 'store', 'show']);
+
+    Route::get('/booking/conflicts', [BookingController::class, 'conflicts'])->name('booking.conflicts');
+    Route::post('/booking/{booking}/generate-tasks', [BookingController::class, 'generateTasks'])->name('booking.generate-tasks');
+    Route::resource('booking', BookingController::class)->only(['index', 'create', 'store', 'show']);
+
+    Route::post('/task/{task}/status', [TaskController::class, 'updateStatus'])->name('task.status');
+    Route::post('/task/{task}/cancel', [TaskController::class, 'cancel'])->name('task.cancel');
+    Route::post('/task/{task}/inspect', [TaskController::class, 'inspect'])->name('task.inspect');
+    Route::resource('task', TaskController::class)->only(['index', 'create', 'store', 'show']);
 
     Route::get('/personnel/change-requests', [PersonnelController::class, 'changeRequests'])
         ->middleware(EnsureUserIsAdmin::class)

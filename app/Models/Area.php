@@ -34,4 +34,14 @@ class Area extends Model
     {
         return $this->hasMany(Complaint::class);
     }
+
+    public function roomBookings(): HasMany
+    {
+        return $this->hasMany(RoomBooking::class);
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 }

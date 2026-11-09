@@ -52,8 +52,8 @@
                             ['Absensi', route('attendance.index')],
                             ['Monitoring Kebersihan', route('monitoring.index')],
                             ['Data Komplain', route('complaint.index')],
-                            ['Peminjaman Gedung/Ruangan', 'bookings'],
-                            ['Penugasan Operasional', 'tasks'],
+                            ['Peminjaman Gedung/Ruangan', route('booking.index')],
+                            ['Penugasan Operasional', route('task.index')],
                         ] as [$label, $icon])
                             <a href="{{ $icon }}" @click="sidebarOpen = false" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900" title="{{ $label }}">
                                 <span class="flex size-5 shrink-0 items-center justify-center rounded-md bg-slate-100 text-[10px] font-bold text-slate-500">{{ strtoupper(substr($label, 0, 1)) }}</span>
